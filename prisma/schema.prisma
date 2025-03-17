@@ -1,0 +1,127 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  binaryTargets   = ["native", "linux-musl", "linux-musl-openssl-3.0.x"]
+  previewFeatures = ["typedSql"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Campaign {
+  id                        String               @id @default(uuid())
+  phosphor_org_id           String
+  name                      String
+  description               String?
+  image_uri                 String?
+  phosphor_drop_id          String?
+  phosphor_collection_id    String?
+  phosphor_contract_address String?
+  phosphor_listing_id       String?
+  phosphor_chain_id         Int?
+  pass_mint_url             String?
+  pass_mint_phosphor_url    String?
+  starts_at                 DateTime             @default(now())
+  ends_at                   DateTime
+  created_at                DateTime             @default(now())
+  last_updated_at           DateTime?            @updatedAt
+  rewards                   Reward[]
+  challenges                Challenge[]
+  challenge_successes       ChallengeSuccess[]
+  RewardDistribution        RewardDistribution[]
+
+  @@map("campaign")
+}
+
+model Challenge {
+  id              String             @id @default(uuid())
+  campaign_id     String
+  campaign        Campaign           @relation(fields: [campaign_id], references: [id])
+  name            String
+  image_uri       String?
+  operator        String
+  type            String
+  points          Int?
+  type_data       Json               @db.Json
+  starts_at       DateTime?          @default(now())
+  ends_at         DateTime?
+  created_at      DateTime           @default(now())
+  last_updated_at DateTime           @updatedAt
+  successes       ChallengeSuccess[]
+  reward          Reward?
+
+  @@map("challenge")
+}
+
+model ChallengeSuccess {
+  id              String    @id @default(uuid())
+  challenge_id    String
+  challenge       Challenge @relation(fields: [challenge_id], references: [id])
+  campaign_id     String
+  campaign        Campaign  @relation(fields: [campaign_id], references: [id])
+  address         String
+  points          Int?
+  completed_at    DateTime  @default(now())
+  created_at      DateTime  @default(now())
+  last_updated_at DateTime  @updatedAt
+
+  @@index([campaign_id, challenge_id, address])
+  @@map("challenge_success")
+}
+
+model Reward {
+  id                  String     @id @default(uuid())
+  campaign_id         String
+  campaign            Campaign   @relation(fields: [campaign_id], references: [id])
+  challenge_id        String?    @unique
+  challenge           Challenge? @relation(fields: [challenge_id], references: [id])
+  name                String
+  description         String?
+  image_uri           String?
+  type                String
+  type_data           Json       @db.Json
+  condition_type      String
+  condition_type_data Json       @db.Json // i.e. CHALLENGE_POINTS -> 'min_total_points': 5 
+
+  created_at         DateTime             @default(now())
+  last_updated_at    DateTime             @updatedAt
+  RewardDistribution RewardDistribution[]
+
+  @@map("reward")
+}
+
+model RewardDistribution {
+  id              String   @id @default(uuid())
+  reward_id       String
+  reward          Reward   @relation(fields: [reward_id], references: [id])
+  campaign_id     String
+  campaign        Campaign @relation(fields: [campaign_id], references: [id])
+  address         String
+  distributed_at  DateTime @default(now())
+  created_at      DateTime @default(now())
+  last_updated_at DateTime @updatedAt
+
+  @@index([campaign_id, reward_id, address])
+  @@map("reward_distribution")
+}
+
+model Banner {
+  id              String    @id
+  title           Json      @db.Json
+  subtitle        Json?     @db.Json
+  image_uri       String?
+  link_uri        String
+  starts_at       DateTime  @default(now())
+  ends_at         DateTime
+  created_at      DateTime  @default(now())
+  last_updated_at DateTime? @updatedAt
+
+  @@map("banner")
+}
