@@ -12,6 +12,7 @@ COPY --chown=node:node . .
 
 RUN rm ./yarn.lock && yarn install 
 RUN yarn run prisma:generate
+RUN yarn run prisma:generate-sql
 RUN dpkg -r --force-all apt apt-get && dpkg -r --force-all debconf dpkg
 
 FROM node:20-slim AS build
