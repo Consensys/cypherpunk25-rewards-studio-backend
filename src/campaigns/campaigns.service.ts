@@ -70,6 +70,7 @@ export class CampaignsService {
                 name: challenge.name,
                 operator: challenge.operator,
                 type: challenge.type,
+                image_uri: challenge.imageUri,
                 points: challenge.points,
                 type_data: challenge.typeData as any as Prisma.JsonObject,
                 starts_at: challenge.startsAt,
@@ -85,6 +86,7 @@ export class CampaignsService {
                 name: reward.name,
                 description: reward.description,
                 type: reward.type,
+                image_uri: reward.imageUri,
                 type_data: reward.typeData as any as Prisma.JsonObject,
                 condition_type: reward.conditionType,
                 condition_type_data:
@@ -363,6 +365,7 @@ export class CampaignsService {
       type,
       typeData,
       conditionType,
+      imageUri,
       conditionTypeData,
       challengeId,
     } = updateRewardDto;
@@ -373,6 +376,7 @@ export class CampaignsService {
         ...(name && { name }),
         ...(description && { description }),
         ...(type && { type }),
+        ...(imageUri && { image_uri: imageUri }),
         ...(typeData && { type_data: typeData as any as Prisma.JsonObject }),
         ...(conditionType && { condition_type: conditionType }),
         ...(conditionTypeData && {
@@ -573,6 +577,7 @@ export class CampaignsService {
     entity.type = challenge.type as ChallengeType;
     entity.typeData = challenge.type_data?.valueOf() as ChallengeTypeData;
     entity.points = challenge.points ?? undefined;
+    entity.imageUri = challenge.image_uri ?? undefined;
     entity.startsAt = challenge.starts_at ?? undefined;
     entity.endsAt = challenge.ends_at ?? undefined;
     entity.createdAt = challenge.created_at;
@@ -590,6 +595,7 @@ export class CampaignsService {
       type: reward.type as RewardType,
       typeData: reward.type_data?.valueOf() as RewardTypeData,
       conditionType: reward.condition_type as RewardConditionType,
+      imageUri: reward.image_uri ?? undefined,
       conditionTypeData:
         reward.condition_type_data?.valueOf() as RewardConditionTypeData,
       createdAt: reward.created_at,
