@@ -35,6 +35,11 @@ spec:
           envFrom:
             - secretRef:
                 name: rewards-studio-app
+            - secretRef:
+                name: rds-sandbox-dev-rewards-studio
+          env:
+            - name: DATABASE_URL
+              value: postgresql://$(PGUSER):$(PGPASSWORD)@$(PGHOST):$(PGPORT)/$(PGDATABASE)
           livenessProbe:
             failureThreshold: 3
             tcpSocket:
