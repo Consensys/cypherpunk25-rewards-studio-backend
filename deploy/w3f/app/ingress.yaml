@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/whitelist-x-forwarded-for: 'true'
+  labels:
+    app.kubernetes.io/name: rewards-studio-app
+  name: rewards-studio-app
+  namespace: rewards-studio
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: rewards-studio-hackathon-eu-dev.sandbox.web3factory.consensys.net
+      http:
+        paths:
+          - backend:
+              service:
+                name: rewards-studio-app
+                port:
+                  number: 3000
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - rewards-studio-hackathon-eu-dev.sandbox.web3factory.consensys.net
