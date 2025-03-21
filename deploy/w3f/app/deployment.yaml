@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: rewards-studio
-          image: 992382680272.dkr.ecr.eu-west-3.amazonaws.com/sandbox-dev-rewards-studio:main-00f67b2
+          image: 992382680272.dkr.ecr.eu-west-3.amazonaws.com/sandbox-dev-rewards-studio:main-987925b
           command: ['sh']
           args: ['./entrypoint.sh']
           ports:
