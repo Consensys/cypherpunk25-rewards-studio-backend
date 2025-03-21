@@ -6,7 +6,7 @@ metadata:
   name: rewards-studio-app
   namespace: rewards-studio
 spec:
-  replicas: 1
+  replicas: 2
   revisionHistoryLimit: 3
   selector:
     matchLabels:
