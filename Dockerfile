@@ -30,5 +30,9 @@ COPY --chown=node:node . .
 #COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 #COPY --chown=node:node --from=build /usr/src/app/dist ./dist
 
+RUN chmod +x ./entrypoint.sh
+USER node
+
+## THis is overridden in k8s deployment
 #CMD [ "node", "dist/main.js" ]
-CMD ["sh", "-c", "yarn build && node dist/main.js"]
+#CMD ["sh", "-c", "yarn build && node dist/main.js"]

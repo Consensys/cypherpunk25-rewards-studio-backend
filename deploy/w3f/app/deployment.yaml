@@ -17,10 +17,10 @@ spec:
         app.kubernetes.io/name: rewards-studio-app
     spec:
       containers:
-        - name: din-elia
+        - name: rewards-studio
           image: 992382680272.dkr.ecr.eu-west-3.amazonaws.com/sandbox-dev-rewards-studio:main-a3eca6e
-          command: ["sh", "-c"]
-          args: ["yarn build && node dist/main.js"]
+          command: ["sh"]
+          args: ["./entrypoint.sh"]
           ports:
             - containerPort: 3000
               protocol: TCP
