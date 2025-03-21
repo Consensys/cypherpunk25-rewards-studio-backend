@@ -40,6 +40,18 @@ spec:
           env:
             - name: DATABASE_URL
               value: postgresql://$(PGUSER):$(PGPASSWORD)@$(PGHOST):$(PGPORT)/$(PGDATABASE)
+            - name: PHOSPHOR_ADMIN_API_URL
+              value: https://admin-api.dev.phosphor.xyz
+            - name: PHOSPHOR_PUBLIC_API_URL
+              value: https://public-api.dev.phosphor.xyz
+            - name: METAFI_API_URL
+              value: https://accounts.api.cx.metamask.io
+            - name: METAMASK_PORTFOLIO_URL
+              value: https://dev.portfolio.metamask.io
+            - name: PHOSPHOR_URL
+              value: https://dev.phosphor.xyz
+            - name: PHOSPHOR_ORG_ID
+              value: 26ff48ce-4355-4c64-8589-a86461a46c38
           livenessProbe:
             failureThreshold: 3
             tcpSocket:
