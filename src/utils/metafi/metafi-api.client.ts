@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AxiosResponse } from 'axios';
 import { firstValueFrom } from 'rxjs';
+import type { MetaFiTxRelationshipData } from '../types/MetaFiTxRelationshipData';
 
 @Injectable()
 export class MetafiApiClient {
@@ -34,22 +35,13 @@ export class MetafiApiClient {
     accountAddress: string,
     againstAddress: string,
     chainId: number,
-  ): Promise<{
-    count: number;
-    txHash: string;
-    chainId: number;
-    data: {
-      timestamp: Date;
-      to: string;
-      from: string;
-      chainId: number;
-      value: string;
-    };
-  } | null> {
+  ): Promise<MetaFiTxRelationshipData | null | undefined> {
     const response = await this.get(
       `/v1/networks/${chainId}/accounts/${accountAddress}/relationships/${againstAddress}`,
     );
-    return response?.status === 204 ? null : response?.data;
+    return response?.status === 204
+      ? null
+      : (response?.data as MetaFiTxRelationshipData);
   }
 
   private route(path: string) {

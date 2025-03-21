@@ -109,8 +109,15 @@ export class CampaignsService {
       orderBy: {
         created_at: 'desc',
       },
+      include: {
+        challenges: true,
+        rewards: true,
+      },
     });
-    return campaigns.map(this.mapPrismaCampaignToEntity);
+    let myself = this;
+    return campaigns.map((campaign) =>
+      myself.mapPrismaCampaignToEntity(campaign),
+    );
   }
 
   async findAllActive(
@@ -123,11 +130,18 @@ export class CampaignsService {
         ends_at: { gt: now },
         phosphor_contract_address: { not: null }, // only campaign with valid drop can be considered active
       },
+      include: {
+        challenges: true,
+        rewards: true,
+      },
       orderBy: {
         created_at: orderByWay ?? 'desc',
       },
     });
-    return campaigns.map(this.mapPrismaCampaignToEntity);
+    let myself = this;
+    return campaigns.map((campaign) =>
+      myself.mapPrismaCampaignToEntity(campaign),
+    );
   }
 
   async findOne(id: string): Promise<Campaign> {

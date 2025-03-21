@@ -31,7 +31,8 @@ export class PublicCampaignsController {
   @Get()
   async findAllActive(): Promise<PublicCampaignDto[]> {
     const campaigns = await this.campaignsService.findAllActive();
-    return campaigns.map(this.toPublicCampaignDto);
+    let myself = this;
+    return campaigns.map((campaign) => myself.toPublicCampaignDto(campaign));
   }
 
   @Get('leaderboard') //TODO should be moved to Loyalty module

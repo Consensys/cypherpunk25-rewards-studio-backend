@@ -6,6 +6,8 @@ import { CampaignsService } from '../../campaigns/campaigns.service';
 import { PhosphorAdminApiClient } from '../../utils/phosphor/phosphor-admin-api.client';
 import { MetafiApiClient } from '../../utils/metafi/metafi-api.client';
 import { ChallengeTypeData } from '../../campaigns/entities/challenges/challenge-type-data.entity';
+import type { MetaFiTxRelationshipData } from '../../utils/types/MetaFiTxRelationshipData';
+
 @Injectable()
 export class SwapChallengeControlService extends AbstractChallengeControlService {
   protected readonly logger: Logger = new Logger(
@@ -77,7 +79,7 @@ export class SwapChallengeControlService extends AbstractChallengeControlService
     let challengeCompleted = false;
     //FIXME: Very simple implementation atm
     // only checking one chain, for both swap contracts versions
-    // using simple endpoint for Metafi to check latest transaction between two addresses
+    // using simple endpoint for Metafi to check latest txRelationship between two addresses
     const chainId = challenge.typeData.chainId;
     if (!chainId) {
       this.logger.warn(
@@ -122,17 +124,18 @@ export class SwapChallengeControlService extends AbstractChallengeControlService
   }
 
   private checkTransactionIfAny(
-    transaction: any,
+    txRelationship: MetaFiTxRelationshipData | null | undefined,
     constraints: ChallengeTypeData,
   ): boolean {
-    if (!transaction) return false;
-    const found = transaction.count && transaction.count > 0;
+    if (!txRelationship) return false;
+    const found = !!txRelationship.count && txRelationship.count > 0;
     const timestampOk =
       !constraints.transactionMinimumTimestamp ||
-      transaction.data.timestamp >= constraints.transactionMinimumTimestamp;
+      new Date(txRelationship.data.timestamp) >=
+        new Date(constraints.transactionMinimumTimestamp);
     const quantityOk =
       !constraints.minimumMetaMaskSwaps ||
-      transaction.count >= constraints.minimumMetaMaskSwaps;
+      txRelationship.count >= constraints.minimumMetaMaskSwaps;
     return found && quantityOk && timestampOk;
   }
 }
