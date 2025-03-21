@@ -1,0 +1,15 @@
+# Deployed in w3f sandbox dev environment, hackathon cluster
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rewards-studio
+spec:
+  project: apps-sandbox-dev
+  destination:
+    name: sandbox-dev-hackathon-eu
+    namespace: rewards-studio
+  source:
+    repoURL: https://github.com/ConsenSys/cypherpunk25-rewards-studio-backend.git
+    path: deploy/w3f/app
+    targetRevision: HEAD

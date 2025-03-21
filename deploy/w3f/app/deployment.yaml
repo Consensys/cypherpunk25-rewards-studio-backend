@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: rewards-studio-app
+  name: rewards-studio-app
+  namespace: rewards-studio
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rewards-studio-app
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: rewards-studio-app
+    spec:
+      containers:
+        - name: din-elia
+          image: 992382680272.dkr.ecr.eu-west-3.amazonaws.com/sandbox-dev-rewards-studio:main-a3eca6e
+          command: ["sh", "-c"]
+          args: ["yarn build && node dist/main.js"]
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2Gi
+            requests:
+              cpu: 300m
+              memory: 1Gi
+          envFrom:
+            - secretRef:
+                name: rewards-studio-app
+          livenessProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 3000
+            timeoutSeconds: 5
