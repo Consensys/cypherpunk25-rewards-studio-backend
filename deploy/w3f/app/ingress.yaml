@@ -20,6 +20,3 @@ spec:
                   number: 3000
             path: /
             pathType: Prefix
-  tls:
-    - hosts:
-        - rewards-studio-hackathon-eu-dev.sandbox.web3factory.consensys.net
