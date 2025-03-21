@@ -19,8 +19,8 @@ spec:
       containers:
         - name: rewards-studio
           image: 992382680272.dkr.ecr.eu-west-3.amazonaws.com/sandbox-dev-rewards-studio:main-00f67b2
-          command: ["sh"]
-          args: ["./entrypoint.sh"]
+          command: ['sh']
+          args: ['./entrypoint.sh']
           ports:
             - containerPort: 3000
               protocol: TCP
@@ -44,6 +44,8 @@ spec:
               value: https://admin-api.dev.phosphor.xyz
             - name: PHOSPHOR_PUBLIC_API_URL
               value: https://public-api.dev.phosphor.xyz
+            - name: PHOSPHOR_INDEXER_API_URL
+              value: https://admin-api.phosphor.xyz
             - name: METAFI_API_URL
               value: https://accounts.api.cx.metamask.io
             - name: METAMASK_PORTFOLIO_URL

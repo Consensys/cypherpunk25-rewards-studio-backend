@@ -112,6 +112,43 @@ export class PhosphorAdminApiClient {
     };
   }
 
+  async prodIndexerGetAllHoldersForContract(
+    contractAddress: string,
+    chainId: number,
+  ): Promise<
+    {
+      contract_address: string;
+      token_id: string;
+      quantity: string;
+      owner: string;
+      chain: string;
+      received_at: Date;
+    }[]
+  > {
+    const response = await this.indexerGet(
+      `/beta/drops/utils/indexer-utils/contracts/${contractAddress}/holders?network=${chainId}`,
+    );
+    return response.data?.holders ?? [];
+  }
+
+  async prodIndexerCheckIfAccountHoldsNft(
+    accountAddress: string,
+    contractAddress: string,
+    chainId: number,
+  ): Promise<{ holdsNft: boolean; totalNfts: number; tokenId: number }> {
+    const response = await this.indexerGet(
+      `/beta/drops/utils/indexer-utils/accounts/${accountAddress}/holdings?contract=${contractAddress}&network=${chainId}`,
+    );
+    return {
+      holdsNft: response.data?.total_results > 0,
+      totalNfts: response.data?.total_results,
+      tokenId:
+        response.data?.total_results > 0
+          ? new Number(response.data?.results[0].token_id).valueOf()
+          : 0, // assuming there's always one or none for a campaign NFT pass
+    };
+  }
+
   async addToPhosphorAudience(
     audienceListId: string,
     addresses: string[],
@@ -161,6 +198,10 @@ export class PhosphorAdminApiClient {
     return `${this.configService.get('PHOSPHOR_ADMIN_API_URL')}${path}`;
   }
 
+  private indexerRoute(path: string) {
+    return `${this.configService.get('PHOSPHOR_INDEXER_API_URL')}${path}`;
+  }
+
   private headers() {
     return {
       headers: {
@@ -173,6 +214,12 @@ export class PhosphorAdminApiClient {
   private async get(path: string): Promise<AxiosResponse<any>> {
     return await firstValueFrom(
       this.httpService.get(this.route(path), this.headers()),
+    );
+  }
+
+  private async indexerGet(path: string): Promise<AxiosResponse<any>> {
+    return await firstValueFrom(
+      this.httpService.get(this.indexerRoute(path), this.headers()),
     );
   }
 

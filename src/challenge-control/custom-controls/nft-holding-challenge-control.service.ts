@@ -36,7 +36,7 @@ export class NftHoldingChallengeControlService extends AbstractChallengeControlS
       return nftPass;
     }
     const holdingStatus =
-      await this.phosphorAdminApiClient.checkIfAccountHoldsNft(
+      await this.phosphorAdminApiClient.prodIndexerCheckIfAccountHoldsNft(
         participantAddress,
         challenge.typeData?.contractAddress,
         challenge.typeData?.chainId,
