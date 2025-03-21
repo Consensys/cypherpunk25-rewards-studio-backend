@@ -13,7 +13,7 @@ COPY --chown=node:node . .
 RUN rm ./yarn.lock && yarn install 
 #RUN yarn run prisma:generate
 #RUN yarn run prisma:generate-sql
-RUN dpkg -r --force-all apt apt-get && dpkg -r --force-all debconf dpkg
+#RUN dpkg -r --force-all apt apt-get && dpkg -r --force-all debconf dpkg
 
 FROM node:20-slim AS build
 
@@ -31,6 +31,7 @@ COPY --chown=node:node . .
 #COPY --chown=node:node --from=build /usr/src/app/dist ./dist
 
 RUN chmod +x ./entrypoint.sh
+RUN chown -R node:node /usr/src/app
 USER node
 
 ## THis is overridden in k8s deployment
