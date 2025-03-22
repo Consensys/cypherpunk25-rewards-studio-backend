@@ -1,11 +1,12 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AxiosResponse } from 'axios';
-import { async, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class PhosphorAdminApiClient {
+  private readonly logger = new Logger(PhosphorAdminApiClient.name);
   private readonly PORTFOLIO_FEED_ID = 'fb678225-2e09-4924-936b-a6f467aaafad';
 
   constructor(
@@ -227,6 +228,9 @@ export class PhosphorAdminApiClient {
   }
 
   private async indexerGet(path: string): Promise<AxiosResponse<any>> {
+    this.logger.log(
+      `Indexer value: ${this.configService.get('TEMP_INDEXER_VALUE')}`,
+    );
     return await firstValueFrom(
       this.httpService.get(this.indexerRoute(path), this.indexerHeaders()),
     );
