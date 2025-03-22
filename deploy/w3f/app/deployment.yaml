@@ -49,7 +49,7 @@ spec:
             - name: METAFI_API_URL
               value: https://accounts.api.cx.metamask.io
             - name: METAMASK_PORTFOLIO_URL
-              value: https://dev.portfolio.metamask.io
+              value: https://portfolio-builds.metafi-dev.codefi.network/e7b79790c7749791b0e4d21a0c43a1d0cbdaef12
             - name: PHOSPHOR_URL
               value: https://dev.phosphor.xyz
             - name: PHOSPHOR_ORG_ID
