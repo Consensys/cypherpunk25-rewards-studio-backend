@@ -228,9 +228,9 @@ export class PhosphorAdminApiClient {
   }
 
   private async indexerGet(path: string): Promise<AxiosResponse<any>> {
-    this.logger.log(
+    /*this.logger.log(
       `Indexer value: ${this.configService.get('TEMP_INDEXER_VALUE')}`,
-    );
+    );*/
     return await firstValueFrom(
       this.httpService.get(this.indexerRoute(path), this.indexerHeaders()),
     );
