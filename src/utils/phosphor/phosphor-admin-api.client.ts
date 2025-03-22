@@ -211,6 +211,15 @@ export class PhosphorAdminApiClient {
     };
   }
 
+  private indexerHeaders() {
+    return {
+      headers: {
+        accept: 'application/json',
+        'phosphor-api-key': this.configService.get('TEMP_INDEXER_VALUE'),
+      },
+    };
+  }
+
   private async get(path: string): Promise<AxiosResponse<any>> {
     return await firstValueFrom(
       this.httpService.get(this.route(path), this.headers()),
@@ -219,7 +228,7 @@ export class PhosphorAdminApiClient {
 
   private async indexerGet(path: string): Promise<AxiosResponse<any>> {
     return await firstValueFrom(
-      this.httpService.get(this.indexerRoute(path), this.headers()),
+      this.httpService.get(this.indexerRoute(path), this.indexerHeaders()),
     );
   }
 

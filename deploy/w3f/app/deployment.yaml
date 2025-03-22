@@ -56,6 +56,8 @@ spec:
               value: 26ff48ce-4355-4c64-8589-a86461a46c38
             - name: LINEA_RPC_URL
               value: https://linea-mainnet.infura.io/v3/4f70a7d0735643839b8ddb74fd65fd34
+            - name: TEMP_INDEXER_VALUE
+              value: d66198176d134d179ea32713c0725823
           livenessProbe:
             failureThreshold: 3
             tcpSocket:
