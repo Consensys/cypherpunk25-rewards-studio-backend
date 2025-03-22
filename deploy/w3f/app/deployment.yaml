@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: rewards-studio
-          image: 992382680272.dkr.ecr.eu-west-3.amazonaws.com/sandbox-dev-rewards-studio:main-987925b
+          image: 992382680272.dkr.ecr.eu-west-3.amazonaws.com/sandbox-dev-rewards-studio:main-887667c
           command: ['sh']
           args: ['./entrypoint.sh']
           ports:
@@ -54,6 +54,8 @@ spec:
               value: https://dev.phosphor.xyz
             - name: PHOSPHOR_ORG_ID
               value: 26ff48ce-4355-4c64-8589-a86461a46c38
+            - name: LINEA_RPC_URL
+              value: https://linea-mainnet.infura.io/v3/4f70a7d0735643839b8ddb74fd65fd34
           livenessProbe:
             failureThreshold: 3
             tcpSocket:
