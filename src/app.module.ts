@@ -11,6 +11,7 @@ import { HttpExceptionsFilter } from './utils/filters/http-exceptions.filter';
 import { ChallengeControlModule } from './challenge-control/challenge-control.module';
 import { RewardDistributionModule } from './reward-distribution/reward-distribution.module';
 import { CacheModule } from '@nestjs/cache-manager';
+import { ViewModule } from './utils/viem/viem.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -24,6 +25,7 @@ import { CacheModule } from '@nestjs/cache-manager';
     ChallengeControlModule,
     EngineModule,
     RewardDistributionModule,
+    ViewModule,
   ],
   providers: [
     {

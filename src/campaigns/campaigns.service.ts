@@ -227,8 +227,8 @@ export class CampaignsService {
         ...(passMintPhosphorUrl && {
           pass_mint_phosphor_url: passMintPhosphorUrl,
         }),
-        ...(startsAt && { starts_at: startsAt }),
-        ...(endsAt && { ends_at: endsAt }),
+        starts_at: startsAt,
+        ends_at: endsAt,
       },
       include: {
         challenges: true,
@@ -304,8 +304,8 @@ export class CampaignsService {
         ...(type && { type }),
         ...(points && { points }),
         ...(typeData && { type_data: typeData as any as Prisma.JsonObject }),
-        ...(startsAt && { starts_at: startsAt }),
-        ...(endsAt && { ends_at: endsAt }),
+        starts_at: startsAt,
+        ends_at: endsAt,
       },
     });
     return this.mapPrismaChallengeToEntity(updatedChallenge);

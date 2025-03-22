@@ -14,6 +14,7 @@ export class SwapChallengeControlService extends AbstractChallengeControlService
     SwapChallengeControlService.name,
   );
 
+  //TODO: move to Maps (faster to read)
   private readonly swapsContracts: { chainId: number; address: string }[] = [
     {
       chainId: 1,

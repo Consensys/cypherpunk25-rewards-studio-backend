@@ -6,18 +6,22 @@ import { SwapChallengeControlService } from './custom-controls/swap-challenge-co
 import { ChallengeControlService } from './challenge-control.service';
 import { CampaignsModule } from '../campaigns/campaigns.module';
 import { MetafiApiModule } from '../utils/metafi/metafi-api.module';
+import { MmCardTxChallengeControlService } from './custom-controls/mmcard-tx-challenge-control.service';
+import { ViewModule } from '../utils/viem/viem.module';
 @Module({
   imports: [
     CampaignsModule,
     PhosphorPublicApiModule,
     PhosphorAdminApiModule,
     MetafiApiModule,
+    ViewModule,
   ],
   controllers: [],
   providers: [
     ChallengeControlService,
     NftHoldingChallengeControlService,
     SwapChallengeControlService,
+    MmCardTxChallengeControlService,
   ],
   exports: [ChallengeControlService],
 })

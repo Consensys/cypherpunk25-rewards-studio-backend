@@ -5,6 +5,7 @@ import { ChallengeTypeData } from './challenge-type-data.entity';
 export enum ChallengeType {
   METAMASK_BRIDGE = 'METAMASK_BRIDGE',
   METAMASK_SWAP = 'METAMASK_SWAP',
+  METAMASK_CARD_TX = 'METAMASK_CARD_TX',
   NFT_OWNERSHIP_BY_QUANTITY = 'NFT_OWNERSHIP_BY_QUANTITY',
   NFT_OWNERSHIP_BY_TOKEN = 'NFT_OWNERSHIP_BY_TOKEN',
 }

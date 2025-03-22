@@ -1,11 +1,13 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsDateString,
+  IsEnum,
   IsEthereumAddress,
   IsNumber,
   IsOptional,
   Min,
 } from 'class-validator';
+import { Erc20Token } from '../../../utils/entities/common-enums';
 export class ChallengeTypeData {
   @ApiPropertyOptional({ description: 'Contract address of the NFT to hold' })
   @IsEthereumAddress()
@@ -50,4 +52,20 @@ export class ChallengeTypeData {
   @IsDateString()
   @IsOptional()
   transactionMinimumTimestamp?: Date;
+
+  @ApiPropertyOptional({
+    description:
+      'Minimum number of MetaMask bridges to complete this challenge',
+  })
+  @IsEnum(Erc20Token)
+  @IsOptional()
+  erc20Token?: Erc20Token;
+
+  @ApiPropertyOptional({
+    description: 'Minimum number of MetaMask swaps to complete this challenge',
+  })
+  @IsNumber()
+  @IsOptional()
+  @Min(1)
+  minimumMetaMaskCardTransactions?: number;
 }

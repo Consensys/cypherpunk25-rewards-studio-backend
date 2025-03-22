@@ -9,7 +9,7 @@ export class CampaignsSchedulerService {
     private readonly campaignsExecutionService: CampaignsExecutionService,
   ) {}
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_30_SECONDS)
   async checkCampaignsWithPendingDrop() {
     await this.campaignsExecutionService.checkCampaignsWithPendingDrop();
   }
