@@ -15,14 +15,14 @@ export class CampaignsSchedulerService {
   }
 
   //@Cron(CronExpression.EVERY_6_HOURS)
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron(CronExpression.EVERY_10_MINUTES)
   async checkCampaignChallengesForAllParticipants() {
     await this.campaignsExecutionService.checkActiveCampaignsForAllParticipants();
   }
 
   //@Cron(CronExpression.EVERY_6_HOURS)
   //@Cron(CronExpression.EVERY_10_SECONDS)
-  @Cron(CronExpression.EVERY_5_MINUTES)
+  @Cron(CronExpression.EVERY_10_MINUTES)
   async distributeCampaignLevelRewards() {
     await this.campaignsExecutionService.distributeCampaignLevelRewards();
   }
