@@ -21,7 +21,8 @@ export class CampaignsSchedulerService {
   }
 
   //@Cron(CronExpression.EVERY_6_HOURS)
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  //@Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_5_MINUTES)
   async distributeCampaignLevelRewards() {
     await this.campaignsExecutionService.distributeCampaignLevelRewards();
   }
