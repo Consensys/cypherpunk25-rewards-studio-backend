@@ -153,17 +153,21 @@ export class CampaignsExecutionService {
   ): Promise<PhosphorNftPass | undefined> {
     //FIXME => should really only check the given challenge (but also updating pass if successful)
     const challenge = await this.campaignsService.findOneChallenge(challengeId);
-    return await this.checkCampaignChallengesForAccount(
-      accountAddress,
-      challenge.campaignId,
-    );
+    return await this.checkCampaignChallengesForAccount(accountAddress, {
+      campaignId: challenge.campaignId,
+      challengeId,
+    });
   }
 
   async checkCampaignChallengesForAccount(
     accountAddress: string,
-    campaignId?: string,
-    campaign?: Campaign,
+    options: {
+      campaignId?: string;
+      campaign?: Campaign;
+      challengeId?: string;
+    },
   ): Promise<PhosphorNftPass | undefined> {
+    let { campaignId, campaign, challengeId } = options;
     let nftPass: PhosphorNftPass | undefined;
     if (!campaign) {
       if (!campaignId) {
@@ -207,7 +211,12 @@ export class CampaignsExecutionService {
         ?.map((c) => {
           return c.challenge_id;
         });
-      const activeChallengesStillToComplete = campaign.challenges.filter(
+      // filtering on single challenge if provided, otherwise considering all active challenges
+      const challengesToCheck = challengeId
+        ? campaign.challenges.filter((c) => c.id === challengeId)
+        : campaign.challenges;
+      // only keeping challenge(s) that should be checked for this participant
+      const activeChallengesStillToComplete = challengesToCheck.filter(
         (c) => c.isActive() && !completedChallengeIds?.includes(c.id),
       );
       for (const challenge of activeChallengesStillToComplete) {
@@ -245,11 +254,10 @@ export class CampaignsExecutionService {
       `Total holders for campaign ${campaignId}: ${participants.length}`,
     );
     for (const participant of participants) {
-      await this.checkCampaignChallengesForAccount(
-        participant.owner,
-        campaignId,
+      await this.checkCampaignChallengesForAccount(participant.owner, {
+        campaignId, //FIXME not sure me need to pass this one here
         campaign,
-      );
+      });
     }
   }
 

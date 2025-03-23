@@ -19,7 +19,9 @@ export class PublicCampaignsExecutionController {
     const nftPass =
       await this.campaignsExecutionService.checkCampaignChallengesForAccount(
         accountAddress,
-        campaignId,
+        {
+          campaignId,
+        },
       );
     return {
       tokenId: nftPass?.tokenId ?? 0,
