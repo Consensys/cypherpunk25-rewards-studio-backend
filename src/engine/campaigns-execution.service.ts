@@ -35,7 +35,7 @@ export class CampaignsExecutionService {
     const drop = await this.phosphorAdminApiClient.executeNewDrop(createDrop);
     await this.campaignsService.update(campaignId, {
       phosphorDropId: drop.dropId,
-      passMintUrl: await this.buildPortfolioLink(drop.dropFlowId, undefined),
+      passMintUrl: await this.buildPortfolioLink(campaign.id),
       passMintPhosphorUrl: this.buildPhosphorLink(
         drop.dropFlowId,
         drop.organizationId,
@@ -352,10 +352,7 @@ export class CampaignsExecutionService {
 
   private async createBannerForCampaign(campaign: Campaign) {
     if (!campaign.phosphorDropId) return;
-    const portfolioLink = await this.buildPortfolioLink(
-      undefined,
-      campaign.phosphorDropId,
-    );
+    const portfolioLink = await this.buildPortfolioLink(campaign.id);
     const banner = await this.bannersService.create({
       id: campaign.id, // temp easy tweak to map banner and campaign
       title: [{ language: 'en', text: campaign.name }],
@@ -373,13 +370,8 @@ export class CampaignsExecutionService {
     this.logger.log(`Drop flow ${dropFlowId} added to Portfolio feed`);
   }
 
-  private async buildPortfolioLink(dropFlowId?: string, dropId?: string) {
-    if (!dropFlowId && dropId) {
-      const dropDetails =
-        await this.phosphorAdminApiClient.getDropDetails(dropId);
-      dropFlowId = dropDetails.flows[0].id; // should alaways contain one flow
-    }
-    return `${this.configService.get('METAMASK_PORTFOLIO_URL')}/explore/nfts?phosphor_id=${dropFlowId}`;
+  private async buildPortfolioLink(campaignId: string) {
+    return `${this.configService.get('METAMASK_PORTFOLIO_URL')}/explore/rewards/campaign/${campaignId}`;
   }
 
   private buildPhosphorLink(dropFlowId: string, organizationId: string) {

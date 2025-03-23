@@ -22,13 +22,13 @@ export class CampaignsSchedulerService {
 
   //@Cron(CronExpression.EVERY_6_HOURS)
   //@Cron(CronExpression.EVERY_10_SECONDS)
-  @Cron(CronExpression.EVERY_10_MINUTES)
+  @Cron(CronExpression.EVERY_MINUTE)
   async distributeCampaignLevelRewards() {
     await this.campaignsExecutionService.distributeCampaignLevelRewards();
   }
 
   //@Cron(CronExpression.EVERY_6_HOURS)
-  @Cron(CronExpression.EVERY_5_MINUTES)
+  @Cron(CronExpression.EVERY_30_SECONDS)
   async distributeChallengeLevelRewards() {
     await this.campaignsExecutionService.distributeChallengeLevelRewards();
   }
